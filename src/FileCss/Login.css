@@ -1,0 +1,30 @@
+/* styles.css */
+
+
+
+.form-Login{
+    margin: 70px 0;
+}
+
+.button {
+    background-color: rgb(13, 110, 253); /* Màu nền nút */
+    color: #fff; /* Màu chữ trắng */
+    padding: 10px 20px; /* Kích thước của nút */
+    margin-left: 254px;
+    border: none; /* Loại bỏ đường viền */
+    border-radius: 5px; /* Bo góc */
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 150px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button:hover {
+    background-color: #0b69f2; /* Màu nền nút khi hover, đậm hơn một chút */
+  }
+  
+
+  .button Admin {
+    margin: 20px 72px
+  }

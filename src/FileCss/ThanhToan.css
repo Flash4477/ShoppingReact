@@ -1,0 +1,35 @@
+.img {
+
+    width: 97px;
+    height: 85px;
+    padding-right: 20px;
+}
+
+.text-muted-size {
+    padding-left: 30px;
+}
+
+/* Thông báo thành công */
+.alert-success {
+    /* display: none; */
+    /* Ban đầu ẩn thông báo */
+    position: fixed;
+    top: 0;
+    left: -100%;
+    /* Bắt đầu ẩn ngoài màn hình bên trái */
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 18px;
+    animation: slide-in 0.5s forwards;
+    /* Áp dụng animation slide-in */
+}
+
+@keyframes slide-in {
+    to {
+        left: 0;
+        /* Di chuyển thông báo từ trái sang phải */
+    }
+}

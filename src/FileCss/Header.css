@@ -1,0 +1,258 @@
+.header {
+  background-image: linear-gradient(0, #846156, #2da6f5);
+  /* Màu cam của Shopee */
+  padding: 10px 0;
+  font-size: 1.5rem;
+}
+
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  padding: 0 50px;
+}
+
+.nav-links-ketnoi {
+  cursor: default;
+}
+
+.nav-links--icon {
+  margin: 1px 1px
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #fff;
+  /* Màu chữ trắng */
+  margin-right: 20px;
+  font-size: 17px;
+  font-weight: 400;
+}
+
+.connect {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.connect span {
+  margin-left: 5px;
+}
+
+.notification,
+.help {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  position: relative;
+}
+
+.notification .notification-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+  display: none;
+}
+
+.notification:hover .notification-dropdown {
+  display: block;
+}
+
+.notification span,
+.help span {
+  margin-left: 5px;
+}
+
+.top-nav-right a {
+  text-decoration: none;
+  color: #fff;
+  /* Màu chữ trắng */
+  margin-right: 20px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.divider {
+  margin-left: -18px;
+  font-size: 15px;
+  font-weight: 130;
+  color: #fff;
+}
+
+.cart {
+  width: 90px;
+  margin-bottom: -33px;
+  height: 30px;
+}
+
+.cart span {
+  margin-left: 5px;
+}
+
+.bottom-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px;
+  width: 1000px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+
+.logo img {
+  width: 100%;
+  height: 81px;
+  margin-right: 12px;
+  padding: 0 68px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  /* Để thanh tìm kiếm ra giữa */
+}
+
+.search-bar input {
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 3px;
+  margin-right: -60px;
+  flex: 1 1;
+  font-size: 14px;
+}
+
+.search-bar button {
+  background-image: linear-gradient(0,#846156, #2da6f5);
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+  width: 55px;
+  height: 35px;
+}
+
+
+.imageUser {
+  width: 37px;
+  height: 38px;
+  border-radius: 20px;
+}
+
+.nameUser {
+  font-size: 1rem;
+  padding: 0 10px;
+  font-weight: 500;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-top: 5px;
+}
+
+.user-info::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  /* Điều chỉnh vị trí dưới `.user-info` */
+  right: 39px;
+  /* Điều chỉnh vị trí ngang */
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent #fff transparent;
+  transform: translateY(0);
+  /* Bắt đầu với hiệu ứng ẩn đi */
+  opacity: 0;
+  /* Bắt đầu ẩn đi */
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  /* Thời gian và hình thức hiệu ứng */
+}
+
+.list-user {
+  list-style: none;
+  position: absolute;
+  top: 100%;
+  /* Đặt vị trí dưới `.user-info` */
+  right: 0;
+  background-color: #fff;
+  box-shadow: 0px 1px 5px rgba(53, 46, 46, 0.8);
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.user-info:hover .list-user {
+  display: flex;
+}
+
+.user-info:hover::before {
+  transform: translateY(-20px);
+  /* Hiển thị bằng cách đẩy xuống */
+  opacity: 1;
+  /* Hiển thị bằng cách hiển thị */
+}
+
+
+.list-user .DangXuat:hover {
+  color: aqua;
+}
+
+.list-user .TaiKhoan:hover {
+  color: aqua;
+}
+
+.list-user .DonMua:hover {
+  color: aqua;
+}
+
+.DangXuat {
+  color: rgb(5, 4, 4);
+  list-style: none;
+  font-size: 0.7rem;
+  margin-left: -25px;
+}
+
+.TaiKhoan {
+  color: rgb(5, 4, 4);
+  font-size: 0.7rem;
+  margin-right: 30px;
+  margin-top: 10px;
+}
+
+.DonMua{
+  color: rgb(5, 4, 4);
+  font-size: 0.7rem;
+  margin-right: 30px;
+}
+
+
+.cart-item-count {
+  list-style: none;
+  font-size: 1rem;
+  font-weight: 500;
+  background-color: #f3f3f3;
+  width: 23px;
+  height: 22px;
+  color: #ff5555;
+  border-radius: 15px;
+  margin-top: -21px;
+  margin-left: 48px;
+}
+
+.search-bar-button {
+  margin-top: -8px;
+  color: white;
+}

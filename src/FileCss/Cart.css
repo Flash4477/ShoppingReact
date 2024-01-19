@@ -1,0 +1,131 @@
+.cart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.text-giohang {
+    padding: 18px 68px;
+    font-size: 1.9rem;
+    font-weight: 900;
+    color: #e45d19;
+}
+
+.item-image {
+    width: 130px;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 66px;
+    border-bottom: 1px solid #ddd; /* Thêm đường gạch ngang */
+   
+}
+
+.item-details {
+    display: flex;
+    flex-direction: column; /* Đặt hiển thị của thông tin sản phẩm dưới dạng cột */
+    width: 60%; /* Điều chỉnh chiều rộng của item-details để tạo độ đồng đều */
+    margin-right: 278px;
+}
+
+.item-name {
+    font-weight: bold;
+    margin-top: 13px
+}
+
+.item-quantity {
+    display: flex;
+    align-items: center;
+    margin-top: -6px;
+    margin-left: -6px
+}
+
+.item-size {
+    padding-left: 7px;
+    margin-top: -15px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+
+.item-price {
+    margin-left: 2px;
+    margin-top: -15px;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.item-quantity button {
+    background-color: #ddd;
+    border: 1px solid #888; /* Thêm đường viền */
+    border-radius: 28%; /* Làm tròn nút */
+    padding: 5px 14px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+.item-price-total {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    margin-top: -30px;
+    align-content: space-around;
+    flex-wrap: wrap;
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-left: 80px;
+}
+
+.remove-item {
+    width: 56px;
+    margin-left: 573px;
+    margin-top: -30px;
+    border-radius: 21px;
+    background-color:#fff ;
+}
+
+.cart-summary {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #ddd;
+    padding: 50px 0;
+}
+
+.checkout-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-left: 32px;
+    border-radius: 35px;
+    font-weight: 900;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.text-checkout{
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.text-totalValue{
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #e32124;
+}
+
+.product-selected{
+    width: 16px;
+    height: 12px;
+    margin-left: -301px;
+    margin-top: -112px;
+    transform: scale(1.5);
+}

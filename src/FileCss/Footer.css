@@ -1,0 +1,61 @@
+/* Định dạng footer container */
+.footerr {
+    background-image: linear-gradient(0, #846156, #2da6f5);
+    padding: 20px 0;
+    padding-left: 64px;
+}
+
+/* Định dạng tiêu đề footer */
+.footer h4  {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Định dạng danh sách footer */
+.footerr ul {
+    list-style: none;
+    padding: 0;
+}
+
+/* Định dạng mục danh sách footer */
+.footerr ul li a {
+    margin-bottom: 5px;
+    text-decoration: none;
+    
+}
+
+/* Định dạng liên hệ footer */
+.footerr p {
+    margin: 5px 0;
+}
+
+/* Định dạng các biểu tượng xã hội */
+.social-icons {
+    list-style: none;
+    padding: 0;
+}
+
+/* Định dạng biểu tượng xã hội cụ thể */
+.social-icons li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+/* Định dạng biểu tượng xã hội */
+.social-icons a {
+    color: #fff;
+    font-size: 24px;
+}
+
+/* Định dạng biểu tượng xã hội khi di chuột qua */
+.social-icons a:hover {
+    color: #ee4d2d;
+}
+
+
+.text-info  li  a {
+    text-decoration: none;
+    list-style: none;
+    color: black;
+}
