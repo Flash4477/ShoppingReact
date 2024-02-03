@@ -13,6 +13,7 @@ import { CartProvider } from './pages/CartContext'; // Import CartProvider
 import OrderDetail from './pages/OrderDetail';
 import Admin from './pages/Admin';
 import ManageOrder from './pages/ManageOrder';
+import ManageCus from './pages/ManageCus';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/orderdetails" element={<OrderDetail />} />
           <Route path="/Admin/quanlysanpham" element={<Admin />} />
           <Route path="/Admin/ManageOrder" element={<ManageOrder />} />
+          <Route path="/Admin/ManageCus" element={<ManageCus />} />
         </Routes>
       </CartProvider>
     </div>

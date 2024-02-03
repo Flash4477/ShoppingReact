@@ -17,15 +17,19 @@ function Register() {
   const [registrationSuccess, setRegistrationSuccess] = useState(null);
   const [emailError, setEmailError] = useState("");
   const [phoneNumberError, setPhoneNumberError] = useState("");
-
+  const [firstNameError, setFirstNameError] = useState("");
+  const [lastNameError, setLastNameError] = useState("");
+  const [nameUserError, setNameUserError] = useState("");
+  const [addressError, setAddressError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
     // Email validation regex
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/ || '';
 
-    const isValidPhoneNumber = /^[0-9]{10}$/;
+    const isValidPhoneNumber = /^[0-9]{10}$/ || '';
 
     if (name === 'email') {
       if (!emailRegex.test(value)) {
@@ -43,6 +47,48 @@ function Register() {
       }
     }
 
+    if (name === 'first_name') {
+      if (!value) {
+        setFirstNameError('Please enter First Name.');
+      } else {
+        setFirstNameError('');
+      }
+    }
+
+    if (name === 'last_name') {
+      if (!value) {
+        setLastNameError('Please enter Last Name.');
+      } else {
+        setLastNameError('');
+      }
+    }
+
+    if (name === 'name_User') {
+      if (!value) {
+        setNameUserError('Please enter Name User.');
+      } else {
+        setNameUserError('');
+      }
+    }
+
+    if (name === 'address') {
+      if (!value) {
+        setAddressError('Please enter Address.');
+      } else {
+        setAddressError('');
+      }
+    }
+
+    if (name === 'password') {
+      if (value.length < 6) {
+        setPasswordError('Password must be at least 6 characters.');
+      } else {
+        setPasswordError('');
+      }
+    }
+
+
+
     setFormData({
       ...formData,
       [name]: value,
@@ -53,6 +99,28 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check if any of the required fields are empty
+    for (const key in formData) {
+      if (!formData[key]) {
+        if (key === 'first_name') {
+          setFirstNameError('Please enter First Name.');
+        } else if (key === 'last_name') {
+          setLastNameError('Please enter Last Name.');
+        } else if (key === 'name_User') {
+          setNameUserError('Please enter Name User.');
+        } else if (key === 'email') {
+          setEmailError('Please enter Email.');
+        } else if (key === 'phone_number') {
+          setPhoneNumberError('Please enter Phone Number.');
+        } else if (key === 'address') {
+          setAddressError('Please enter Address.');
+        } else if (key === 'password') {
+          setPasswordError('Please enter Password.');
+        }
+        return;
+      }
+    }
 
     // Check if there's an email validation error before submitting
     if (emailError) {
@@ -89,6 +157,7 @@ function Register() {
     }
   };
 
+
   return (
     <div className="Register">
       <Header />
@@ -106,12 +175,13 @@ function Register() {
               </label>
               <input
                 type="text"
-                className="form-control"
+                className={`form-control ${firstNameError ? 'is-invalid' : ''}`}
                 id="first_name"
                 name="first_name"
                 value={formData.first_name}
                 onChange={handleChange}
               />
+              {firstNameError && <div className="invalid-feedback">{firstNameError}</div>}
             </div>
             <div className="col">
               <label htmlFor="last_name" className="form-label">
@@ -119,12 +189,13 @@ function Register() {
               </label>
               <input
                 type="text"
-                className="form-control"
+                className={`form-control ${lastNameError ? 'is-invalid' : ''}`}
                 id="last_name"
                 name="last_name"
                 value={formData.last_name}
                 onChange={handleChange}
               />
+              {lastNameError && <div className="invalid-feedback">{lastNameError}</div>}
             </div>
           </div>
 
@@ -134,12 +205,13 @@ function Register() {
             </label>
             <input
               type="text"
-              className="form-control"
+              className={`form-control ${nameUserError ? 'is-invalid' : ''}`}
               id="name_User"
               name="name_User"
               value={formData.name_User}
               onChange={handleChange}
             />
+            {nameUserError && <div className="invalid-feedback">{nameUserError}</div>}
           </div>
 
           <div className="mb-3">
@@ -163,12 +235,13 @@ function Register() {
             </label>
             <input
               type="password"
-              className="form-control"
+              className={`form-control ${passwordError ? 'is-invalid' : ''}`}
               id="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
             />
+            {passwordError && <div className="invalid-feedback">{passwordError}</div>}
           </div>
 
           <div className="row mb-3">
@@ -178,12 +251,13 @@ function Register() {
               </label>
               <input
                 type="text"
-                className="form-control"
+                className={`form-control ${addressError ? 'is-invalid' : ''}`}
                 id="address"
                 name="address"
                 value={formData.address}
                 onChange={handleChange}
               />
+              {addressError && <div className="invalid-feedback">{addressError}</div>}
             </div>
             <div className="col">
               <label htmlFor="phone_number" className="form-label">

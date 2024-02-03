@@ -2,57 +2,54 @@ import React, { useEffect, useState } from 'react';
 import '../FileCss/Admin.css';
 import { MdEdit, MdDelete } from 'react-icons/md'; // Import biểu tượng từ react-icons
 
-const ManageOrder = () => {
+const ManageCus = () => {
 
-    const [orders, setOrders] = useState([]);
+    const [users, setUsers] = useState([]);
     const [showAddEmployeeModal, setShowAddEmployeeModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [orderIdToDelete, setOrderIdToDelete] = useState(null);
+    const [userIdToDelete, setUserIdToDelete] = useState(null);
 
 
 
-    const handleDeleteConfirmation = async (orderIdToDelete) => {
+    const handleDeleteConfirmation = async (userIdToDelete) => {
         setShowDeleteModal(true);
-        setOrderIdToDelete(orderIdToDelete); // Add this line to store the order ID
-        console.log('orderIdToDelete:', orderIdToDelete); 
-
+        setUserIdToDelete(userIdToDelete);
     };
 
 
-    const handleDeleteOrder = async () => {
+    const handleDeleteUser = async () => {
         try {
-            if (orderIdToDelete) {
-                await fetch(`http://localhost:8081/api/v2/orders/${orderIdToDelete}`, {
+            if (userIdToDelete) {
+                await fetch(`http://localhost:8081/api/v2/user/delete/${userIdToDelete}`, {
                     method: 'DELETE',
                 });
 
                 // Update the state after successful delete
-                setOrders(prevOrders => prevOrders.filter(order => order.Order_id !== orderIdToDelete));
+                setUsers(prevUsers => prevUsers.filter(user => user.NguoiDung_id !== userIdToDelete));
                 console.log('Delete successful');
                 setShowDeleteModal(false);
-                setOrderIdToDelete(null); // Reset orderIdToDelete after deletion
+                setUserIdToDelete(null);
                 window.location.reload();
             } else {
-                console.error('orderIdToDelete is null');
+                console.error('userIdToDelete is null');
             }
         } catch (error) {
-            console.error('Error deleting order:', error);
+            console.error('Error deleting user:', error);
         }
     };
 
 
     useEffect(() => {
-        // Gọi API để lấy tất cả đơn hàng
-        fetch('http://localhost:8081/api/v2/orders/all') // Đổi URL để phản ánh API mới
+        // Fetch all users
+        fetch('http://localhost:8081/api/v2/user/all')
             .then(response => response.json())
             .then(data => {
-                setOrders(data); // Đổi tên biến từ setProduct thành setOrders
+                setUsers(data);
             })
             .catch(error => {
-                console.error('Error fetching orders:', error);
-                // Xử lý lỗi theo cách bạn muốn
+                console.error('Error fetching users:', error);
             });
-    }, []); // Thêm một mảng trống để đảm bảo useEffect chỉ chạy một lần khi component được render
+    }, []);
 
 
 
@@ -99,35 +96,41 @@ const ManageOrder = () => {
                                             <label htmlFor="selectAll" />
                                         </span>
                                     </th>
-                                    <th>OrderID</th>
-                                    <th>PaymentMethod</th>
-                                    <th>CreatAt</th>
-                                    <th>Subtotal</th>
-                                    <th>User</th>
+                                    <th>User ID</th>
+                                    <th>NameUser</th>
+                                    <th>Email</th>
+                                    <th>Password</th>
+                                    <th>Phone Number</th>
+                                    <th>Address</th>
+                                    {/* Add additional fields as needed */}
                                 </tr>
                             </thead>
                             <tbody>
-                                {orders.map((order) => (
-                                    <tr key={order.Order_id}>
-                                        {/* Render order data dynamically */}
+                                {users.map((user) => (
+                                    <tr key={user.NguoiDung_id}>
                                         <td>
                                             <span className="custom-checkbox">
-                                                <input type="checkbox" id={`checkbox${order.Order_id}`} name="options[]" value={order.Order_id} />
-                                                <label htmlFor={`checkbox${order.Order_id}`} />
+                                                <input type="checkbox" id={`checkbox${user.NguoiDung_id}`} name="options[]" value={user.NguoiDung_id} />
+                                                <label htmlFor={`checkbox${user.NguoiDung_id}`} />
                                             </span>
                                         </td>
-                                        <td>{order.order_id}</td>
-                                        <td>{order.paymentmethod}</td> {/* Đổi tên thuộc tính từ Name_Product thành Name_Order */}
-                                        <td>{order.createAt}</td>
-                                        <td>{order.subtotal}</td>
-                                        <td>{order.nguoiDung.name_User}</td>
+                                        <td>{user.nguoiDung_id}</td>
+                                        <td>{user.name_User}</td>
+                                        <td>{user.email}</td>
+                                        <td style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100px' }}>
+                                            {user.password}
+                                        </td>
+
+                                        <td>{user.phone_number}</td>
+                                        <td>{user.address}</td>
+                                        {/* Add additional fields as needed */}
                                         <td>
-                                            {/* Render button for deleting order */}
-                                            <a className="delete" data-toggle="modal" onClick={() => handleDeleteConfirmation(order.order_id)}>
+                                            {/* Render button for deleting user */}
+                                            <a className="delete" data-toggle="modal" onClick={() => handleDeleteConfirmation(user.nguoiDung_id)}>
                                                 <i className="material-icons" data-toggle="tooltip" title="Delete"><MdDelete /></i>
                                             </a>
                                         </td>
-                                        {/* ... (other order fields) */}
+                                        {/* ... (other user fields) */}
                                     </tr>
                                 ))}
                             </tbody>
@@ -140,32 +143,32 @@ const ManageOrder = () => {
 
 
             {/* Delete Modal HTML */}
-            <div id="deleteEmployeeModal" className={`modal fade ${showDeleteModal ? 'show' : ''}`} style={{ display: showDeleteModal ? 'block' : 'none' }}>
+            <div id="deleteUserModal" className={`modal fade ${showDeleteModal ? 'show' : ''}`} style={{ display: showDeleteModal ? 'block' : 'none' }}>
                 <div className="modal-dialog">
                     <div className="modal-content">
-                        <form >
+                        <form>
                             <div className="modal-header">
-                                <h4 className="modal-title">Delete Order</h4>
+                                <h4 className="modal-title">Delete User</h4>
                                 <button type="button" className="close" data-dismiss="modal" aria-hidden="true" onClick={() => setShowDeleteModal(false)}>&times;</button>
                             </div>
                             <div className="modal-body">
-                                <p>Are you sure you want to delete this Order?</p>
+                                <p>Are you sure you want to delete this user?</p>
                                 <p className="text-warning"><small>This action cannot be undone.</small></p>
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-default" data-dismiss="modal" onClick={() => setShowDeleteModal(false)}>Cancel</button>
-                                <button type="button" className="btn btn-danger" onClick={handleDeleteOrder}>
+                                <button type="button" className="btn btn-danger" onClick={handleDeleteUser}>
                                     Delete
                                 </button>
                             </div>
                         </form>
                     </div>
-
                 </div>
             </div>
+
         </div>
 
     );
 };
 
-export default ManageOrder;
+export default ManageCus;

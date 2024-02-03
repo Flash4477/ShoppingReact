@@ -64,9 +64,10 @@ function Header() {
 
   const handleLogout = () => {
     setIsLoggedIn(false);
-    setUser({});
-    sessionStorage.removeItem('email');
+    setUser({}); 
     setCartItemCount(0);
+    sessionStorage.removeItem('email');
+    navigate('/');
   };
 
   const handleAddToCart = () => {

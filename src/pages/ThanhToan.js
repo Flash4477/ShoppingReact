@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import '../FileCss/ThanhToan.css'; // Import CSS file
+import { useNavigate } from "react-router-dom";
+
 
 function ThanhToan() {
     const [cartItems, setCartItems] = useState([]);
@@ -12,6 +14,8 @@ function ThanhToan() {
     const shippingFee = 35; // Phí vận chuyển mẫu, thay thế bằng giá trị thực tế
     const totalCartValue = parseInt(sessionStorage.getItem('totalCartValue'), 10) || 0;
     const finalTotal = totalCartValue + shippingFee;
+    const navigate = useNavigate();
+
 
     console.log(cartItems);
     // Tạo một mảng rỗng để chứa tất cả các CartId
@@ -41,7 +45,10 @@ function ThanhToan() {
             if (response.ok) {
                 console.log('Đã tạo đơn hàng thành công.');
                 setOrderSuccess(true);
-
+                setTimeout(() => {
+                    // Redirect to the home page after 3 seconds
+                    navigate('/');
+                }, 3000);
                 // Gọi API xóa sản phẩm từ giỏ hàng sau khi đơn hàng được tạo thành công
                 for (let i = 0; i < cartItems.length; i++) {
                     const productsizeid = cartItems[i].productSizeId;

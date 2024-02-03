@@ -147,9 +147,9 @@ function DetailProduct() {
                                 <FiShoppingCart className="cart--icon-plus" /> Thêm vào giỏ hàng
                             </button>
                         </div>
-                        <div className="buy-now">
+                        {/* <div className="buy-now">
                             <button className="buy-now-button">Mua ngay</button>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div className="row align-items-center">

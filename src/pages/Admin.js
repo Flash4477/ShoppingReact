@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../FileCss/Admin.css';
-import { MdEdit, MdDelete } from 'react-icons/md'; // Import biểu tượng từ react-icons
+import { MdEdit, MdDelete, MdPerson } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 
 const Admin = () => {
 
@@ -11,6 +12,14 @@ const Admin = () => {
     const [selectedImage, setSelectedImage] = useState(null);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showLogout, setShowLogout] = useState(false);
+    const navigate = useNavigate();
+    const [admins, setAdmins] = useState([]);
+
+    const handleLogoutClick = () => {
+        sessionStorage.removeItem('email');
+        navigate('/');
+    };
 
     const handleAddEmployeeClick = () => {
         setShowAddEmployeeModal(true);
@@ -38,6 +47,7 @@ const Admin = () => {
                 // other fields...
             });
             setShowDeleteModal(true);
+
         } else {
             // Handle the case where Product_id is empty
             console.error('Product_id is empty');
@@ -86,36 +96,9 @@ const Admin = () => {
         }));
     };
 
-    const uploadImage = async (file) => {
-        try {
-            const formData = new FormData();
-            formData.append('file', file);
-            
-            const response = await fetch("http://localhost:8081/api/v2/products/uploadImage", {
-                method: 'POST',
-                body: formData,
-            });
-    
-            if (!response.ok) {
-                throw new Error(`Image upload failed with status ${response.status}`);
-            }
-    
-            const data = await response.text();
-        
-            console.log('Image uploaded successfully', data);
-            console.log(data);
-            // Trả về đường dẫn ảnh sau khi tải lên
-            return data ;
-            
-        } catch (error) {
-            console.error('Error uploading image:', error);
-            throw error; // Rethrow lỗi để bắt được ở nơi gọi hàm nếu cần
-        }
-    };
-
     const handleAddSubmit = async (e) => {
         e.preventDefault();
-    
+
         try {
             // Lấy dữ liệu từ các trường nhập liệu
             const nameProduct = e.target.elements.nameProduct.value;
@@ -126,50 +109,73 @@ const Admin = () => {
             const brand = e.target.elements.brand.value;
             const origin = e.target.elements.origin.value;
             const sizeInput = e.target.elements.size.value;
-    
+
+            // Kiểm tra xem người dùng đã chọn ảnh chưa
+            if (!selectedImage) {
+                console.error('Vui lòng chọn một hình ảnh');
+                return;
+            }
+
+            // Tạo đối tượng FormData và thêm ảnh vào đó
+            const formData = new FormData();
+            formData.append('file', selectedImage);
+
+            // Tiến hành tải ảnh lên và nhận đường dẫn từ server
+            const responseImage = await fetch("http://localhost:8081/api/v2/products/uploadImage", {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!responseImage.ok) {
+                throw new Error(`Tải ảnh lên thất bại với mã trạng thái ${responseImage.status}`);
+            }
+
+            const imageData = await responseImage.json();
+            console.log('Dữ liệu hình ảnh:', imageData);
+            if (!imageData.imageUrl) {
+                throw new Error('Tải ảnh lên thất bại. Không có đường dẫn hình ảnh.');
+            }
+
+            console.log('Tải ảnh lên thành công', imageData.imageUrl);
+
             // Tách dữ liệu kích thước và số lượng từ chuỗi nhập liệu
             const sizes = sizeInput.split(',').map(sizeInfo => {
                 const [sizeName, quantity] = sizeInfo.trim().split(':');
                 return { size_Name: sizeName, quantity_size: parseInt(quantity, 10) || 0 };
             });
-    
-            // Upload hình ảnh lên Cloudinary và lấy đường dẫn
-            const imageFile = e.target.elements.image.files[0];
-            const imageUrl = await uploadImage(imageFile);
-            console.log(imageFile);
-            console.log(imageUrl);
-            // Gọi API thêm sản phẩm
+
+            // Gọi API thêm sản phẩm với đường dẫn hình ảnh nhận được
             const url = `http://localhost:8081/api/v2/product`;
-            const response = await fetch(url, {
+            const responseProduct = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     Name_Product: nameProduct,
-                    image: imageUrl, // Sử dụng đường dẫn hình ảnh từ Cloudinary
-                    description,
-                    price,
+                    image: imageData.imageUrl,
+                    description: description,
+                    price: price,
                     price_old: priceOld,
                     stock_quantity: stockQuantity,
-                    brand,
-                    origin,
+                    brand: brand,
+                    origin: origin,
                     size: sizes,
                 }),
             });
-    
-            if (!response.ok) {
-                throw new Error(`Add request failed with status ${response.status}`);
+
+            if (!responseProduct.ok) {
+                throw new Error(`Add request failed with status ${responseProduct.status}`);
             }
-    
-            const data = await response.json();
-            console.log('Add successful', data);
-    
+
+            const productData = await responseProduct.json();
+            console.log('Add successful', productData);
+
             // Tùy chỉnh logic sau khi thêm thành công nếu cần
             setShowAddEmployeeModal(false);
             // Có thể cập nhật danh sách sản phẩm hoặc thực hiện các hành động khác sau khi thêm sản phẩm thành công
         } catch (error) {
-            console.error('Error adding product:', error);
+            console.error('Lỗi khi thêm sản phẩm:', error);
             // Xử lý lỗi theo cách bạn muốn
         }
     };
@@ -253,13 +259,14 @@ const Admin = () => {
                     method: 'DELETE',
                     // other headers...
                 });
-
+                window.location.reload(true);
                 if (!response.ok) {
                     throw new Error(`Delete request failed with status ${response.status}`);
                 }
 
                 const data = await response.json();
                 console.log('Delete successful', data);
+
                 setShowDeleteModal(false);
                 // Optionally, you can update the state or perform other actions after a successful delete
             } else {
@@ -286,6 +293,30 @@ const Admin = () => {
     }, [currentPage])
 
 
+    useEffect(() => {
+        // Lấy giá trị email từ sessionStorage
+        const email = sessionStorage.getItem('email');
+
+        // Kiểm tra xem email có tồn tại
+        if (email) {
+            // Thực hiện yêu cầu API với giá trị email
+            fetch(`{{url}}/admin/getAdminByEmail?email=${email}`)
+                .then(response => response.json())
+                .then(data => {
+
+                    setAdmins([data.content]);
+                    console.log(data);
+                })
+                .catch(error => {
+                    // Xử lý lỗi khi yêu cầu API thất bại
+                    console.error('Error fetching data:', error);
+                });
+
+        }
+    }, []);
+
+
+
 
 
 
@@ -296,7 +327,8 @@ const Admin = () => {
             <div className="left-menu">
                 <ul>
                     <li><a href="http://localhost:3000/Admin/quanlysanpham">Quản lý Sản Phẩm</a></li>
-                    <li><a href="http://localhost:3000/Admin/ManageOrder">Quản lý đơn hàng</a></li>
+                    <li><a href="http://localhost:3000/Admin/ManageCus">Quản lý đơn hàng</a></li>
+                    <li><a href="http://localhost:3000/Admin/ManageOrder">Quản lý Khách Hàng</a></li>
                     {/* Thêm các mục menu khác nếu cần */}
                 </ul>
             </div>
@@ -305,9 +337,24 @@ const Admin = () => {
                     <div className="table-wrapper">
                         <div className="table-title">
                             <div className="row">
+                                <div className="user-icon" onMouseEnter={() => setShowLogout(true)} onMouseLeave={() => setShowLogout(false)}>
+                                    <MdPerson />
+                                    {showLogout && (
+                                        <div className="logout-button" onClick={handleLogoutClick}>
+
+                                            {admins.map(admin => (
+                                                <span key={admin.ID}>{admin.name_admin}</span>
+                                            ))}
+
+                                            Đăng xuất
+                                        </div>
+                                    )}
+                                </div>
+
                                 <div className="col-sm-6">
                                     <h2>Manage <b>Product</b></h2>
                                 </div>
+
                                 <div className="col-sm-6">
                                     <a className="btn btn-success" data-toggle="modal" onClick={handleAddEmployeeClick}>
                                         <MdEdit /> <span>Add New Product</span>

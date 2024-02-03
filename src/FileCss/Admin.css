@@ -307,8 +307,35 @@ table.table .avatar {
 	background-color: #555;
 }
 
-.product-title{
-	overflow: hidden; /* Ẩn phần vượt quá chiều cao của tiêu đề */
-    text-overflow: ellipsis;/*Hiển thị dấu ba chấm (...) cho phần vượt quá*/
-    white-space: nowrap; /* Ngăn tiêu đề xuống dòng */
+.product-title {
+	overflow: hidden;
+	/* Ẩn phần vượt quá chiều cao của tiêu đề */
+	text-overflow: ellipsis;
+	/*Hiển thị dấu ba chấm (...) cho phần vượt quá*/
+	white-space: nowrap;
+	/* Ngăn tiêu đề xuống dòng */
+}
+
+.user-icon {
+	position: fixed;
+	margin-left: 950px;
+    margin-top: -48px;
+	font-size: 24px;
+	/* Adjust the font size as needed */
+	cursor: pointer;
+	color: black;
+	
+}
+
+
+.logout-button{
+	position: absolute;
+	padding: 5px 10px;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	z-index: 1;
+	font-size: 15px;
+	
 }
